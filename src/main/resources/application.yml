@@ -1,0 +1,12 @@
+server:
+  port: 6021
+
+spring:
+  application:
+    name: zkweb
+
+#  resources:
+#    static-locations: classpath:/resources
+#
+#  mvc:
+#    static-path-pattern: /**
