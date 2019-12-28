@@ -1,7 +1,6 @@
 package com.yasenagat.zkweb.util;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.apache.commons.dbutils.QueryRunner;
+import com.alibaba.druid.pool.DruidDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,46 +10,30 @@ import java.util.*;
 public class ZkCfgManagerImpl implements ZkCfgManager {
 
 	private static Logger log = LoggerFactory.getLogger(ZkCfgManagerImpl.class);
-	private static ComboPooledDataSource dataSource = new ComboPooledDataSource();
-//	private static JdbcConnectionPool cp = JdbcConnectionPool.create("jdbc:mysql://127.0.0.1:3306/db_spring_base","root","123456");
+	private static DruidDataSource dataSource = new DruidDataSource();
 
 	private static Connection conn = null;
-	static QueryRunner run = new QueryRunner(H2Util.getDataSource());
 	
 	public ZkCfgManagerImpl() {
-//		cp.setMaxConnections(20);
-//		cp.setLoginTimeout(1000 * 50);
-
-		dataSource.setMaxPoolSize(20);
-		try {
-			dataSource.setLoginTimeout(1000*50);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/db_spring_base?Unicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false&serverTimezone=PRC");
+		dataSource.setUsername("root");
+		dataSource.setPassword("123456");
+		dataSource.setMaxActive(20);
+		dataSource.setLoginTimeout(1000*50);
+		init();
 	};
 	private Connection getConnection() throws SQLException{
-
-		log.info("=getConnection=>");
 		try {
 			if (null == conn) {
-//				if(cp ==null){
-//					cp = JdbcConnectionPool.create("jdbc:mysql://127.0.0.1:3306/db_spring_base","root","123456");
-//				}
-//				conn = cp.getConnection();
-				conn = dataSource.getConnection("root","123456");
+				conn = dataSource.getConnection();
 			}
 		}catch(Exception ex){
 			ex.printStackTrace();
-//			System.out.println("=getConnection=>reset conn");
-//			cp = JdbcConnectionPool.create("jdbc:mysql://127.0.0.1:3306/db_spring_base","root","123456");
-//			conn = cp.getConnection();
 		}
-		log.info("<=getConnection=>");
 		return conn;
 	}
 	
 	private void closeConn(){
-		log.info("=closeConn=>");
 		if(null != conn){
 			try {
 				conn.close();
@@ -58,7 +41,6 @@ public class ZkCfgManagerImpl implements ZkCfgManager {
 				e.printStackTrace();
 			}
 		}
-		log.info("<=closeConn=>");
 	}
 	
 	public boolean init() {
@@ -69,7 +51,6 @@ public class ZkCfgManagerImpl implements ZkCfgManager {
 			return ps.executeUpdate()>0;
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.info("init zkCfg error : {}" , e.getMessage());
 		} finally {
 			if(null != ps){
 				try {
@@ -80,7 +61,6 @@ public class ZkCfgManagerImpl implements ZkCfgManager {
 				}
 			}
 		}
-		log.info("<=init=>");
 		return false;
 	}
 
@@ -194,7 +174,9 @@ public class ZkCfgManagerImpl implements ZkCfgManager {
 		
 		PreparedStatement ps = null;
 		try {
-			ps = getConnection().prepareStatement("DELETE ZK WHERE ID=?");
+			String sql = "DELETE FROM ZK WHERE ID=?";
+			log.info("sql:{}",sql + id);
+			ps = getConnection().prepareStatement(sql);
 			ps.setString(1, id);
 			return ps.executeUpdate()>0;
 		} catch (Exception e) {

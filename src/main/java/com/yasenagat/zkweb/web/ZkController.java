@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -67,11 +68,13 @@ public class ZkController {
 			root.remove(0);
 			List<String> pathList = ZkCache.get(cacheId).getChildren(null);
 			log.info("list {}",pathList);
-			for(String p : pathList){
-				Map<String, Object> atr = new HashMap<String, Object>();
-				atr.put("path", "/"+p);
-				Tree tree = new Tree(0,p,Tree.STATE_CLOSED,null,atr);
-				root.add(tree);
+			if (!CollectionUtils.isEmpty(pathList)) {
+				for(String p : pathList){
+					Map<String, Object> atr = new HashMap<String, Object>();
+					atr.put("path", "/"+p);
+					Tree tree = new Tree(0,p,Tree.STATE_CLOSED,null,atr);
+					root.add(tree);
+				}
 			}
 		}else {
 			root.remove(0);

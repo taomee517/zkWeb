@@ -37,7 +37,7 @@ public class ZkCache {
 		List<Map<String, Object>> list = cfgManager.query();
 		
 		for(Map<String , Object> m : list){
-			ZkCache.put(m.get("ID").toString(), ZkManagerImpl.createZk().connect(m.get("CONNECTSTR").toString(), Integer.parseInt(m.get("SESSIONTIMEOUT").toString())));
+			ZkCache.put(m.get("ID").toString(), ZkManagerImpl.createZk().connect(m.get("URL").toString(), Integer.parseInt(m.get("SESSIONTIMEOUT").toString())));
 		}
 	}
 	

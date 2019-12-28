@@ -5,11 +5,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-	<link rel="stylesheet" type="text/css" href="resources/easyui/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="resources/easyui/themes/icon.css">
-	<script type="text/javascript" src="resources/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="resources/easyui/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="resources/easyui/locale/easyui-lang-zh_CN.js"></script>
+	<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+	<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
 
 </head>
 <body>

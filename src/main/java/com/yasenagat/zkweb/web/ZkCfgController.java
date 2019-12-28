@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yasenagat.zkweb.util.H2Util;
 import com.yasenagat.zkweb.util.ZkCache;
 import com.yasenagat.zkweb.util.ZkCfgFactory;
 import com.yasenagat.zkweb.util.ZkCfgManager;
@@ -31,10 +30,11 @@ public class ZkCfgController {
 	public @ResponseBody Map<String, Object> queryZkCfg(@RequestParam(required=false) int page,@RequestParam(required=false) int rows){
 		
 		try {
-			log.info(new Date()+"");
 			Map<String, Object> _map = new HashMap<String, Object>();
 			_map.put("rows", zkCfgManager.query(page,rows));
 			_map.put("total", zkCfgManager.count());
+			//这个缓存应该更合理一点 todo
+			ZkCache.init(zkCfgManager);
 			return _map;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,13 +46,13 @@ public class ZkCfgController {
 	@RequestMapping(value="/addZkCfg",produces="text/html;charset=UTF-8")
 	public @ResponseBody String addZkCfg(
 			@RequestParam(required=false) String des,
-			@RequestParam(required=false) String connectstr,
+			@RequestParam(required=false) String url,
 			@RequestParam(required=false) String sessiontimeout){
 		
 		try {
 			String id = UUID.randomUUID().toString().replaceAll("-", "");
-			if(ZkCfgFactory.createZkCfgManager().add(id,des, connectstr, sessiontimeout)){
-				ZkCache.put(id, ZkManagerImpl.createZk().connect(connectstr,Integer.parseInt(sessiontimeout)));
+			if(ZkCfgFactory.createZkCfgManager().add(id,des, url, sessiontimeout)){
+				ZkCache.put(id, ZkManagerImpl.createZk().connect(url,Integer.parseInt(sessiontimeout)));
 			};
 			
 		} catch (Exception e) {
@@ -80,12 +80,12 @@ public class ZkCfgController {
 	public @ResponseBody String updateZkCfg(
 			@RequestParam(required=true) String id,
 			@RequestParam(required=false) String des,
-			@RequestParam(required=false) String connectstr,
+			@RequestParam(required=false) String url,
 			@RequestParam(required=false) String sessiontimeout){
 		
 		try {
-			if(ZkCfgFactory.createZkCfgManager().update(id,des, connectstr, sessiontimeout)){
-				ZkCache.put(id, ZkManagerImpl.createZk().connect(connectstr,Integer.parseInt(sessiontimeout)));
+			if(ZkCfgFactory.createZkCfgManager().update(id,des, url, sessiontimeout)){
+				ZkCache.put(id, ZkManagerImpl.createZk().connect(url,Integer.parseInt(sessiontimeout)));
 			};
 			
 		} catch (Exception e) {

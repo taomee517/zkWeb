@@ -249,7 +249,7 @@
 	            <tr>  
 	                <th data-options="field:'ID'">ID</th>  
 	                <th data-options="field:'DES'">DES</th>  
-	                <th data-options="field:'CONNECTSTR'">CONNECTSTR</th>  
+	                <th data-options="field:'URL'">URL</th>
 	                <th data-options="field:'SESSIONTIMEOUT'">SESSIONTIMEOUT</th>  
 	            </tr>  
 	        </thead>  
@@ -319,8 +319,8 @@
 		            <td><input name="des" type="text"></input></td>    
 		        </tr>    
 		        <tr>    
-		            <td>CONNECTSTR:</td>    
-		            <td><input name="connectstr" type="text"></input></td>    
+		            <td>URL:</td>
+		            <td><input name="url" type="text"></input></td>
 		        </tr>    
 		        <tr>    
 		            <td>SESSIONTIMEOUT:</td>    
@@ -349,8 +349,8 @@
 		            <td><input name="des" type="text"></input></td>    
 		        </tr>    
 		        <tr>    
-		            <td>CONNECTSTR:</td>    
-		            <td><input name="connectstr" type="text"></input></td>    
+		            <td>URL:</td>
+		            <td><input name="url" type="text"></input></td>
 		        </tr>    
 		        <tr>    
 		            <td>SESSIONTIMEOUT:</td>    

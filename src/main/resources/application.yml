@@ -5,8 +5,23 @@ spring:
   application:
     name: zkweb
 
-#  resources:
-#    static-locations: classpath:/resources
-#
-#  mvc:
-#    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/rs
+
+  mvc:
+    static-path-pattern: /**
+    servlet:
+      load-on-startup: 1
+      path: /
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/db_spring_demo?Unicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false&serverTimezone=PRC
+    driverClassName: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    filters:  stat,wall,log4j
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    initialSize:  2
+    minIdle: 1
+    maxActive: 4
+    maxWait: 60000

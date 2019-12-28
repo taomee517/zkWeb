@@ -14,6 +14,12 @@ public interface ZkCfgManager {
 	public boolean delete(String id);
 	public Map<String, Object> findById(String id);
 	public int count();
-	static String initSql = "CREATE TABLE IF NOT EXISTS ZK(ID VARCHAR PRIMARY KEY, DES VARCHAR, CONNECTSTR VARCHAR, SESSIONTIMEOUT VARCHAR)";
+	static String initSql = "CREATE TABLE IF NOT EXISTS `ZK` (\n" +
+			"  `ID` varchar(255) NOT NULL,\n" +
+			"  `DES` varchar(255) DEFAULT NULL,\n" +
+			"  `URL` varchar(255) DEFAULT NULL,\n" +
+			"  `SESSIONTIMEOUT` varchar(255) DEFAULT NULL,\n" +
+			"  PRIMARY KEY (`ID`)\n" +
+			") ENGINE=InnoDB DEFAULT CHARSET=utf8";
 	
 }
